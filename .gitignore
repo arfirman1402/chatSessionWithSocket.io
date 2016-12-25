@@ -53,5 +53,3 @@ captures/
 out
 gen
 .gitignore
-app/libs/
-app/src/main/res/drawable/

@@ -21,11 +21,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"/>
-        <Button
+        <ImageButton
             android:id="@+id/main_send_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:src="@drawable/ic_send"
+            android:padding="5dp"
+            android:scaleType="centerCrop"
+            android:background="#00000000"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

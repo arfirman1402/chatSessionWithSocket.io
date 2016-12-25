@@ -2,9 +2,11 @@ package io.arfirman1402.chatsessionwithsocketio.view.activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,8 +14,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView mainChatList;
     private RecyclerView mainChatIsTyping;
     private EditText mainSendEdit;
-    private Button mainSendButton;
+    private ImageButton mainSendButton;
 
     private Handler handlerTyping;
     private Runnable runTyping;
@@ -55,12 +57,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle("Chat Forum");
+
         userName = getIntent().getStringExtra("userName");
 
         mainChatList = (RecyclerView) findViewById(R.id.main_chat_list);
         mainChatIsTyping = (RecyclerView) findViewById(R.id.main_chat_istyping);
         mainSendEdit = (EditText) findViewById(R.id.main_send_edit);
-        mainSendButton = (Button) findViewById(R.id.main_send_button);
+        mainSendButton = (ImageButton) findViewById(R.id.main_send_button);
 
         LinearLayoutManager layoutManagerChatList = new LinearLayoutManager(this);
         mainChatList.setLayoutManager(layoutManagerChatList);
@@ -211,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setUsername(args[0].toString());
             chatMessage.setMessage(args[1].toString());
-            addChatMessage(chatMessage);
+            if (!chatMessage.getUsername().equals(userName)) addChatMessage(chatMessage);
         }
     };
 
@@ -274,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setUsername(args[0].toString());
             chatMessage.setMessage("has joined the room");
-            addChatMessage(chatMessage);
+            if (!chatMessage.getUsername().equals(userName)) addChatMessage(chatMessage);
         }
     };
 
@@ -285,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setUsername(args[0].toString());
             chatMessage.setMessage("has leaved the room");
-            addChatMessage(chatMessage);
+            if (!chatMessage.getUsername().equals(userName)) addChatMessage(chatMessage);
         }
     };
 
@@ -303,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chatMessage.setUsername("You");
         chatMessage.setMessage(mainSendEdit.getText().toString());
         addChatMessage(chatMessage);
-        socket.emit(BaseConstant.EVENT_NEW_MESSAGE, chatMessage.getMessage(), chatMessage.getMessage());
+        socket.emit(BaseConstant.EVENT_NEW_MESSAGE, userName, chatMessage.getMessage());
     }
 
     private class SendEditTextChanged implements TextWatcher {
@@ -326,5 +330,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void afterTextChanged(Editable s) {
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        confirmationDialog();
+    }
+
+    private void confirmationDialog() {
+        AlertDialog.Builder confirmDialog = new AlertDialog.Builder(this);
+        confirmDialog.setTitle("Close App");
+        confirmDialog.setMessage("Did you really close this app ?");
+        confirmDialog.setPositiveButton("No", null);
+        confirmDialog.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+        confirmDialog.show();
     }
 }
