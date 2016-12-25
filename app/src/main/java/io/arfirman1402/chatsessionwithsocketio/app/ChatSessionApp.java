@@ -21,20 +21,17 @@ import io.socket.client.Socket;
 public class ChatSessionApp extends Application implements Application.ActivityLifecycleCallbacks {
     private static ChatSessionApp instance;
     private Gson gson;
-    private String TAG = this.getApplicationContext().getClass().getSimpleName();
+    private String TAG = ChatSessionApp.class.getSimpleName();
     private Socket socket;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (instance == null) {
-            instance = new ChatSessionApp();
-        }
+        instance = getInstance();
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
+        gson = getGson();
 
-        generateSocket();
+        socket = getSocket();
 
         registerActivityLifecycleCallbacks(this);
     }
@@ -48,10 +45,17 @@ public class ChatSessionApp extends Application implements Application.ActivityL
     }
 
     public static ChatSessionApp getInstance() {
+        if (instance == null) {
+            instance = new ChatSessionApp();
+        }
         return instance;
     }
 
     public Gson getGson() {
+        if (gson == null) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gson = gsonBuilder.create();
+        }
         return gson;
     }
 

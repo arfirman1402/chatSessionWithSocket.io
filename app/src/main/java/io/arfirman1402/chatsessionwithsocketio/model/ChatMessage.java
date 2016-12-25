@@ -1,24 +1,21 @@
 package io.arfirman1402.chatsessionwithsocketio.model;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by arfirman1402 on 24/12/16.
  */
 
 public class ChatMessage {
-    @SerializedName("username")
     private String username;
-
-    @SerializedName("message")
     private String message;
+    private boolean isTyping;
 
     public ChatMessage() {
     }
 
-    public ChatMessage(String username, String message) {
+    public ChatMessage(String username, String message, boolean isTyping) {
         this.username = username;
         this.message = message;
+        this.isTyping = isTyping;
     }
 
     public String getUsername() {
@@ -27,5 +24,17 @@ public class ChatMessage {
 
     public String getMessage() {
         return message;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setTyping(boolean typing) {
+        isTyping = typing;
     }
 }

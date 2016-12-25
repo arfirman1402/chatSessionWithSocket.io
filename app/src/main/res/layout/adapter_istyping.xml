@@ -5,7 +5,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/chat_username"
+        android:id="@+id/istyping_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Username"
@@ -13,9 +13,9 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/chat_message"
+        android:id="@+id/istyping_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:text="Message Anda berada disini ya." />
+        android:text="is typing ..." />
 </LinearLayout>

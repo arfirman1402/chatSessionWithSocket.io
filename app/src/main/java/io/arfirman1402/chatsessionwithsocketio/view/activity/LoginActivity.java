@@ -8,6 +8,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import io.arfirman1402.chatsessionwithsocketio.R;
 
@@ -53,6 +54,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void startChat() {
-        MainActivity.startNewActivity(LoginActivity.this, loginUsername.getText().toString());
+        loginUsername.setText(loginUsername.getText().toString().trim());
+
+        if (!loginUsername.getText().toString().isEmpty()) {
+            if (!(loginUsername.getText().toString().length() > 20)) {
+                MainActivity.startNewActivity(LoginActivity.this, loginUsername.getText().toString());
+            } else {
+                Toast.makeText(getApplicationContext(), "Nama anda terlalu panjang (max.20 karakter).", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Nama anda tidak boleh kosong.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

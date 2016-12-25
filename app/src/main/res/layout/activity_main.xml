@@ -29,8 +29,14 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_chat_list"
+        android:id="@+id/main_chat_istyping"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/main_send_layout"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/main_chat_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/main_chat_istyping"/>
 </RelativeLayout>
